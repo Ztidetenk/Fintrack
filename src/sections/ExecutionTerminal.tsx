@@ -24,6 +24,7 @@ import { useState, type FormEvent } from 'react';
 import { GATE_QUESTIONS, MILESTONES, RULE_BREAK_REASONS, RULES, milestoneById, type MilestoneId } from '../data/roadmap';
 import { addMonths, monthYear, parseISODate, shortDate, signedUsd, usd } from '../lib/format';
 import { dateForMonth } from '../lib/projection';
+import { useTwoStepConfirm } from '../lib/useTwoStepConfirm';
 import { planEta, useDashboard, type GateAnswer } from '../state/DashboardContext';
 import { PageIntro } from '../components/PageIntro';
 import { Button } from '../components/ui/Button';
@@ -422,6 +423,7 @@ function TradeLog() {
   const d = useDashboard();
   const ts = d.terminalStatus;
   const [custom, setCustom] = useState('');
+  const resetDay = useTwoStepConfirm(d.resetDay);
   const canLog = ts.status === 'active';
 
   const submitCustom = (e: FormEvent) => {
@@ -441,13 +443,8 @@ function TradeLog() {
       icon={TrendingUp}
       iconTone="cyan"
       action={
-        <Button
-          size="xs"
-          variant="ghost"
-          icon={RotateCcw}
-          onClick={() => window.confirm("Reset today's gate and trades?") && d.resetDay()}
-        >
-          Reset day
+        <Button size="xs" variant={resetDay.armed ? 'danger' : 'ghost'} icon={RotateCcw} onClick={resetDay.trigger}>
+          {resetDay.armed ? 'Confirm reset' : 'Reset day'}
         </Button>
       }
     >

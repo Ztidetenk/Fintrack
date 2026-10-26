@@ -54,7 +54,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-zinc-950/75 backdrop-blur-md">
+    <header className="sticky top-[env(safe-area-inset-top,0px)] z-30 border-b border-zinc-800/80 bg-zinc-950/75 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1600px] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Logo className="size-8 shrink-0 md:hidden" />
         <div className="hidden size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500/30 to-cyan-500/20 p-px md:flex">

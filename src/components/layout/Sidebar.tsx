@@ -1,5 +1,6 @@
 import { PanelLeftClose, PanelLeftOpen, RotateCcw } from 'lucide-react';
 import { HORIZON_MONTHS } from '../../data/roadmap';
+import { useTwoStepConfirm } from '../../lib/useTwoStepConfirm';
 import { useDashboard } from '../../state/DashboardContext';
 import { cn } from '../ui/cn';
 import { ProgressBar } from '../ui/ProgressBar';
@@ -10,9 +11,7 @@ import { NAV } from './nav';
 export function Sidebar() {
   const { tab, setTab, sidebarCollapsed: collapsed, setSidebarCollapsed, currentMonth, currentPhase, resetAll } = useDashboard();
 
-  const handleReset = () => {
-    if (window.confirm('Reset every tracker (deposits, checklists, accounts, settings) back to the demo state?')) resetAll();
-  };
+  const reset = useTwoStepConfirm(resetAll);
 
   return (
     <aside
@@ -86,12 +85,18 @@ export function Sidebar() {
           </button>
           <button
             type="button"
-            onClick={handleReset}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2 text-[11px] text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200"
-            title="Reset demo data"
+            onClick={reset.trigger}
+            className={cn(
+              'inline-flex h-9 items-center gap-1.5 rounded-lg px-2 text-[11px] transition-colors',
+              reset.armed
+                ? 'bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/30'
+                : 'text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200',
+            )}
+            title={reset.armed ? 'Click again to reset every tracker to the demo state' : 'Reset all data to the demo state'}
+            aria-label={reset.armed ? 'Confirm reset of all data' : 'Reset all data'}
           >
             <RotateCcw className="size-3.5" aria-hidden />
-            {!collapsed && 'Reset data'}
+            {!collapsed && (reset.armed ? 'Click to confirm' : 'Reset data')}
           </button>
         </div>
       </div>

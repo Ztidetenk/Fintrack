@@ -27,6 +27,16 @@
     background-attachment: fixed;
   }
 
+  /* Paints the phone's top safe-area band so content never scrolls visibly behind it. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: var(--color-zinc-950);
+  }
+
   ::selection {
     background: rgb(16 185 129 / 0.3);
   }
