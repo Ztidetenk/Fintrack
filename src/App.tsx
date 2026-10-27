@@ -4,6 +4,7 @@ import { MobileNav } from './components/layout/MobileNav';
 import { Sidebar } from './components/layout/Sidebar';
 import { CommandCenter } from './sections/CommandCenter';
 import { ExecutionTerminal } from './sections/ExecutionTerminal';
+import { Journal } from './sections/Journal';
 import { Roadmap } from './sections/Roadmap';
 import { TreasurySimulator } from './sections/TreasurySimulator';
 import { TrophyRoom } from './sections/TrophyRoom';
@@ -15,6 +16,7 @@ const SECTIONS: Record<TabId, () => React.JSX.Element> = {
   treasury: TreasurySimulator,
   vault: TrophyRoom,
   terminal: ExecutionTerminal,
+  journal: Journal,
 };
 
 function Shell() {

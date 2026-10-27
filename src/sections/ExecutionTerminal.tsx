@@ -6,6 +6,7 @@ import {
   Clock,
   ImagePlus,
   Lock,
+  NotebookPen,
   OctagonX,
   Pencil,
   Power,
@@ -471,7 +472,6 @@ function TradeLog() {
         </label>
         <input
           id="custom-pnl"
-          inputMode="decimal"
           placeholder="Custom P&L, e.g. 145 or -60"
           value={custom}
           disabled={!canLog}
@@ -526,6 +526,11 @@ function TradeLog() {
               );
             })}
           </ul>
+        )}
+        {d.terminal.trades.length > 0 && (
+          <Button size="xs" variant="ghost" icon={NotebookPen} className="mt-2" onClick={() => d.setTab('journal')}>
+            Log today in the journal
+          </Button>
         )}
       </div>
     </Card>

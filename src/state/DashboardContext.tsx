@@ -14,9 +14,10 @@ import {
 import { clamp, monthsBetween, toDayKey, uid } from '../lib/format';
 import { roadmapStart, runProjection, type Projection, type SimSettings } from '../lib/projection';
 import { usePersistentState } from '../lib/usePersistentState';
+import { sampleEntries, type JournalEntry } from '../lib/journal';
 import { computeVault, type AcquiredRecord, type Deposit, type VaultStatus } from '../lib/vault';
 
-export type TabId = 'command' | 'roadmap' | 'treasury' | 'vault' | 'terminal';
+export type TabId = 'command' | 'roadmap' | 'treasury' | 'vault' | 'terminal' | 'journal';
 
 export type GateAnswer = boolean | 'patience' | 'impulse';
 
@@ -210,6 +211,24 @@ function useDashboardValue() {
 
   const delayMonths = ruleBreaks.length * RULES.ruleBreakDelayMonths;
 
+  /* ---------- journal (real P&L history — never touched by resetAll) ---------- */
+  const [journal, setJournal] = usePersistentState<JournalEntry[]>('journal', []);
+  const saveJournalEntry = useCallback(
+    (entry: Omit<JournalEntry, 'id' | 'createdAt'>, id?: string) =>
+      setJournal((j) =>
+        id
+          ? j.map((e) => (e.id === id ? { ...e, ...entry, sample: false } : e))
+          : [...j, { ...entry, id: uid(), createdAt: new Date().toISOString() }],
+      ),
+    [setJournal],
+  );
+  const removeJournalEntry = useCallback((id: string) => setJournal((j) => j.filter((e) => e.id !== id)), [setJournal]);
+  const loadSampleJournal = useCallback(
+    () => setJournal((j) => [...j.filter((e) => !e.sample), ...sampleEntries(new Date())]),
+    [setJournal],
+  );
+  const clearSampleJournal = useCallback(() => setJournal((j) => j.filter((e) => !e.sample)), [setJournal]);
+
   /* ---------- reset ---------- */
   const resetAll = useCallback(() => {
     setAccounts({ 'lucid-25k-eval': 1 });
@@ -273,6 +292,11 @@ function useDashboardValue() {
     anchor,
     setAnchor,
     resetAll,
+    journal,
+    saveJournalEntry,
+    removeJournalEntry,
+    loadSampleJournal,
+    clearSampleJournal,
   };
 }
 

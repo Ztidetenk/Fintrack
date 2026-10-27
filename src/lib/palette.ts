@@ -14,6 +14,10 @@ export const SERIES: Record<Bucket, string> = {
 /** Single-series payout charts. */
 export const PAYOUT = '#059669';
 
+/** Profit/loss polarity (journal). Validated as a pair; sign is also carried by position and text. */
+export const PROFIT = '#059669';
+export const LOSS = '#f43f5e';
+
 export const CHART = {
   surface: '#18181b',
   grid: '#27272a',

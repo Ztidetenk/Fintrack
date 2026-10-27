@@ -1,4 +1,4 @@
-import { Calculator, LayoutDashboard, Route, SquareTerminal, Trophy, type LucideIcon } from 'lucide-react';
+import { Calculator, LayoutDashboard, NotebookPen, Route, SquareTerminal, Trophy, type LucideIcon } from 'lucide-react';
 import type { TabId } from '../../state/DashboardContext';
 
 export const NAV: { id: TabId; label: string; short: string; icon: LucideIcon; blurb: string }[] = [
@@ -36,5 +36,12 @@ export const NAV: { id: TabId; label: string; short: string; icon: LucideIcon; b
     short: 'Terminal',
     icon: SquareTerminal,
     blurb: "Today only. Gatekeeper, circuit breaker, and the reason you're here.",
+  },
+  {
+    id: 'journal',
+    label: 'Trade Journal',
+    short: 'Journal',
+    icon: NotebookPen,
+    blurb: 'Every day you traded, what you made or lost, and why.',
   },
 ];

@@ -92,7 +92,11 @@ export function Sidebar() {
                 ? 'bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/30'
                 : 'text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200',
             )}
-            title={reset.armed ? 'Click again to reset every tracker to the demo state' : 'Reset all data to the demo state'}
+            title={
+              reset.armed
+                ? 'Click again to reset every tracker to the demo state (journal is kept)'
+                : 'Reset trackers to the demo state (journal is kept)'
+            }
             aria-label={reset.armed ? 'Confirm reset of all data' : 'Reset all data'}
           >
             <RotateCcw className="size-3.5" aria-hidden />

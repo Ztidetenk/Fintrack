@@ -16,6 +16,19 @@ export const usd = (n: number) => usdFmt.format(Math.round(n));
 export const usdCompact = (n: number) => (Math.abs(n) < 1_000 ? usd(n) : usdCompactFmt.format(n));
 export const usdAxis = (n: number) => usdAxisFmt.format(n);
 export const signedUsd = (n: number) => (n > 0 ? `+${usd(n)}` : n < 0 ? `−${usd(Math.abs(n))}` : usd(0));
+/** Signed money that keeps cents when there are any (MNQ ticks are $0.50 per micro). */
+export function signedMoney(n: number): string {
+  const cents = Math.round(n * 100) / 100;
+  const digits = Number.isInteger(cents) ? 0 : 2;
+  const abs = Math.abs(cents).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+  return cents > 0 ? `+${abs}` : cents < 0 ? `−${abs}` : abs;
+}
+
 export const pct = (n: number, digits = 0) => `${(n * 100).toFixed(digits)}%`;
 
 /** Parses YYYY-MM-DD as a local date (avoids the UTC shift of `new Date(str)`). */

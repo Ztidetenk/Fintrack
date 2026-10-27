@@ -9,7 +9,7 @@ export function MobileNav() {
       aria-label="Sections"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-800/80 bg-zinc-950/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
     >
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-6">
         {NAV.map((item) => {
           const active = item.id === tab;
           const Icon = item.icon;
